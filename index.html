@@ -258,6 +258,11 @@
 
   <script type="module" src="/js/app.js"></script>
   <script>
+  // Helper: show/hide auth modal via class (not inline style, so CSS rules apply)
+  const authModal = document.getElementById('auth-modal');
+  function showAuthModal() { authModal.classList.remove('auth-modal-hidden'); }
+  function hideAuthModal() { authModal.classList.add('auth-modal-hidden'); }
+
   let isLogin = true;
 
   document.getElementById('auth-toggle-btn').addEventListener('click', (e) => {
@@ -299,7 +304,7 @@
       }
 
       localStorage.setItem('studyplan_user', JSON.stringify({ email: data.email }));
-      document.getElementById('auth-modal').style.display = 'none';
+      hideAuthModal();
 
     } catch (err) {
       errorEl.textContent = 'Network error. Please try again.';
@@ -309,13 +314,13 @@
 
   // Check if already logged in
   if (localStorage.getItem('studyplan_user')) {
-    document.getElementById('auth-modal').style.display = 'none';
+    hideAuthModal();
   }
 
   // Logout
   document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('studyplan_user');
-    document.getElementById('auth-modal').style.display = 'flex';
+    showAuthModal();
     window.location.reload();
   });
 
